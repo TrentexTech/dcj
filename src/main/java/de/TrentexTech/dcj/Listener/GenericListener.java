@@ -1,5 +1,7 @@
 package de.TrentexTech.dcj.Listener;
 
+import java.util.logging.Level;
+
 import de.TrentexTech.dcj.main.Dcj;
 import de.TrentexTech.dcj.main.Storage;
 import de.TrentexTech.dcj.utils.Logger;
@@ -23,6 +25,8 @@ public class GenericListener implements EventListener {
 		} else if (event instanceof GatewayPingEvent && this.dcj.ready) {
 			event = (GatewayPingEvent) event;
 			Storage.getAnnouncementChannel().sendMessage("ping: " + dcj.getJda().getGatewayPing()).queue();
+		} else {
+			Logger.log(Level.FINEST, "GenericEvent", this.getClass(), event.getClass().getSimpleName());
 		}
 	}
 
