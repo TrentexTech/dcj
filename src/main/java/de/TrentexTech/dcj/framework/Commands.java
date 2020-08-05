@@ -3,6 +3,7 @@ package de.TrentexTech.dcj.framework;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.TrentexTech.dcj.cmd.CMDGit;
 import de.TrentexTech.dcj.cmd.CMDHelp;
 import de.TrentexTech.dcj.cmd.CMDMute;
 import de.TrentexTech.dcj.main.Dcj;
@@ -20,6 +21,7 @@ public class Commands {
 
 		list.add(new CMDHelp());
 		list.add(new CMDMute());
+		list.add(new CMDGit());
 
 		// Add the aliases and command handler to command handler list
 

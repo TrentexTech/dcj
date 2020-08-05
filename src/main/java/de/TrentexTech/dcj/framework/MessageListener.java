@@ -53,7 +53,7 @@ public class MessageListener extends ListenerAdapter {
 	private void handleCommand(Message message, Guild guild) {
 		Command cmd = Command.parse(message);
 		CommandExecutor ce = dcj.getCommand(cmd.getLabel());
-		Logger.logInfo("CommandExecution", ce.getClass(), cmd.getSender().getAsTag() + ": help");
+		Logger.logInfo("CommandExecution", ce.getClass(), cmd.getSender().getAsTag() + ": " + cmd.getLabel());
 		ce.onCommand(cmd.getSender(), cmd.getLabel(), cmd.getArgs(), guild);
 	}
 }

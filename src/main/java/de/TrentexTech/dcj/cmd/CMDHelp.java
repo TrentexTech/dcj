@@ -15,12 +15,13 @@ public class CMDHelp implements CommandExecutor {
 	List<String> aliases = new ArrayList<String>();
 
 	public CMDHelp() {
-		aliases.add("help");
+		this.aliases.add("help");
 	}
 
 	/**
 	 * Send an embed with info on how to use the bot
 	 */
+	@Override
 	public boolean onCommand(User sender, String command, String[] args, Guild guild) {
 		// TODO sponge add embed and info
 		Storage.commandChannel.sendMessage("help stuff yk TODO").queue();

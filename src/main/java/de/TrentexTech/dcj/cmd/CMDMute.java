@@ -17,6 +17,10 @@ public class CMDMute implements CommandExecutor {
 		aliases.add("mute");
 	}
 
+	/**
+	 * Mute the user (currently).
+	 */
+	@Override
 	public boolean onCommand(User sender, String command, String[] args, Guild guild) {
 		List<Role> roleList = guild.getRolesByName("Muted", false);
 		if (roleList.size() < 1) {
