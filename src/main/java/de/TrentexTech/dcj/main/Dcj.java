@@ -6,20 +6,19 @@ import java.util.Map;
 
 import javax.security.auth.login.LoginException;
 
-import de.TrentexTech.dcj.framework.Logger;
-import de.TrentexTech.dcj.framework.MessageListener;
-import de.TrentexTech.dcj.stuff.CommandExecutor;
+import de.TrentexTech.dcj.Command.CommandExecutor;
+import de.TrentexTech.dcj.Listener.GenericListener;
+import de.TrentexTech.dcj.Listener.MessageListener;
+import de.TrentexTech.dcj.utils.Commands;
+import de.TrentexTech.dcj.utils.Logger;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.GatewayPingEvent;
-import net.dv8tion.jda.api.events.GenericEvent;
-import net.dv8tion.jda.api.events.ReadyEvent;
-import net.dv8tion.jda.api.hooks.EventListener;
 
-public class Dcj implements EventListener {
+public class Dcj {
 
 	private JDA jda;
+	private Commands cmds;
 
 	public boolean ready = false;
 
@@ -27,9 +26,9 @@ public class Dcj implements EventListener {
 
 	public Dcj() throws LoginException, InterruptedException {
 		jda = JDABuilder.createDefault(Storage.getTOKEN()).build();
-		jda.addEventListener(this);
-		jda.addEventListener(new MessageListener(this));
-		jda.awaitReady();
+		getJda().addEventListener(new GenericListener(this));
+		getJda().addEventListener(new MessageListener(this));
+		getJda().awaitReady();
 		init();
 		ready = true;
 	}
@@ -45,18 +44,9 @@ public class Dcj implements EventListener {
 		}
 	}
 
-	public void onEvent(GenericEvent event) {
-		// Logger.log(Level.DEBUG, "Testing", event.getClass().getSimpleName());
-		if (event instanceof ReadyEvent) {
-			Logger.logInfo("Bot", this.getClass(), "ready");
-		} else if (event instanceof GatewayPingEvent && ready) {
-			event = (GatewayPingEvent) event;
-			Storage.getAnnouncementChannel().sendMessage("ping: " + jda.getGatewayPing()).queue();
-		}
-	}
-
 	private void init() {
-		List<TextChannel> channels = jda.getTextChannels();
+		cmds = new Commands(this);
+		List<TextChannel> channels = getJda().getTextChannels();
 		for (int i = 0; i < channels.size(); i++) {
 			if (channels.get(i).getName().equals("bot-announcements")) {
 				Storage.setAnnouncementChannel(channels.get(i));
@@ -73,5 +63,9 @@ public class Dcj implements EventListener {
 		}
 		Logger.logWarn("CommandGrabber", this.getClass(), "Command is not initialized or does not exist!");
 		return null;
+	}
+
+	public JDA getJda() {
+		return jda;
 	}
 }

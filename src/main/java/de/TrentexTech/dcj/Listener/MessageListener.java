@@ -1,12 +1,12 @@
-package de.TrentexTech.dcj.framework;
+package de.TrentexTech.dcj.Listener;
 
 import java.util.logging.Level;
 
+import de.TrentexTech.dcj.Command.Command;
+import de.TrentexTech.dcj.Command.CommandExecutor;
 import de.TrentexTech.dcj.main.Dcj;
 import de.TrentexTech.dcj.main.Storage;
-import de.TrentexTech.dcj.stuff.Command;
-import de.TrentexTech.dcj.stuff.CommandExecutor;
-import net.dv8tion.jda.api.entities.Guild;
+import de.TrentexTech.dcj.utils.Logger;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -15,13 +15,11 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class MessageListener extends ListenerAdapter {
 
-	Dcj dcj;
-	Commands cmds;
+	private Dcj dcj;
 
 	public MessageListener(Dcj dcj) {
 		this.dcj = dcj;
-		cmds = new Commands(this.dcj);
-		Logger.logInfo("MessageListener", this.getClass(), "ready");
+		Logger.logInfo("EventListener", this.getClass(), "Listener registered.");
 	}
 
 	@Override
@@ -31,9 +29,8 @@ public class MessageListener extends ListenerAdapter {
 		}
 		Message message = event.getMessage();
 		TextChannel channel = (TextChannel) event.getChannel();
-		Guild guild = event.getGuild();
-		User sender = message.getAuthor();
 
+		User sender = message.getAuthor();
 		String msg = message.getContentDisplay();
 		String channelName = channel.getName().toString();
 
@@ -45,15 +42,19 @@ public class MessageListener extends ListenerAdapter {
 				"[" + channelName + "|" + sender.getAsTag() + "]: " + msg);
 		if (!sender.getAsTag().equals(Storage.NAME)) {
 			if (msg.startsWith(Storage.PREFIX) && channelName.equals(Storage.CMDCHANNEL)) {
-				handleCommand(message, guild);
+				handleCommand(event);
+			}
+		} else {
+			if (msg.startsWith("nerv: ")) {
+				// message.delete().queue();
 			}
 		}
 	}
 
-	private void handleCommand(Message message, Guild guild) {
-		Command cmd = Command.parse(message);
+	private void handleCommand(MessageReceivedEvent event) {
+		Command cmd = Command.parse(event.getMessage());
 		CommandExecutor ce = dcj.getCommand(cmd.getLabel());
 		Logger.logInfo("CommandExecution", ce.getClass(), cmd.getSender().getAsTag() + ": " + cmd.getLabel());
-		ce.onCommand(cmd.getSender(), cmd.getLabel(), cmd.getArgs(), guild);
+		ce.onCommand(cmd.getSender(), cmd.getLabel(), cmd.getArgs(), event);
 	}
 }

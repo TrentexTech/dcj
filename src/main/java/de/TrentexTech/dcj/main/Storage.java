@@ -2,7 +2,7 @@ package de.TrentexTech.dcj.main;
 
 import java.util.logging.Level;
 
-import de.TrentexTech.dcj.framework.Logger;
+import de.TrentexTech.dcj.utils.Logger;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 

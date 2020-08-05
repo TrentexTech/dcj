@@ -1,14 +1,13 @@
-package de.TrentexTech.dcj.stuff;
+package de.TrentexTech.dcj.Command;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public abstract interface CommandExecutor {
 
-	public static final List<String> aliases = new ArrayList<String>();
+	public static final List<String> aliases = null;
 
 	/**
 	 * Executes the given command, returning its success
@@ -19,7 +18,7 @@ public abstract interface CommandExecutor {
 	 * @param guild   Guild command message
 	 * @return true if a valid command, otherwise false
 	 */
-	boolean onCommand(User sender, String command, String[] args, Guild guild);
+	boolean onCommand(User sender, String command, String[] args, MessageReceivedEvent event);
 
 	public List<String> getAliases();
 

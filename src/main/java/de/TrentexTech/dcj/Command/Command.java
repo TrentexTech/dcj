@@ -1,4 +1,4 @@
-package de.TrentexTech.dcj.stuff;
+package de.TrentexTech.dcj.Command;
 
 import de.TrentexTech.dcj.main.Storage;
 import net.dv8tion.jda.api.entities.Message;

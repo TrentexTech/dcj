@@ -1,4 +1,4 @@
-package de.TrentexTech.dcj.framework;
+package de.TrentexTech.dcj.utils;
 
 import java.util.logging.Level;
 

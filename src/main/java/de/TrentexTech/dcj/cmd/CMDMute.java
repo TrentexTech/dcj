@@ -3,11 +3,12 @@ package de.TrentexTech.dcj.cmd;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.TrentexTech.dcj.Command.CommandExecutor;
 import de.TrentexTech.dcj.main.Storage;
-import de.TrentexTech.dcj.stuff.CommandExecutor;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class CMDMute implements CommandExecutor {
 
@@ -21,7 +22,8 @@ public class CMDMute implements CommandExecutor {
 	 * Mute the user (currently).
 	 */
 	@Override
-	public boolean onCommand(User sender, String command, String[] args, Guild guild) {
+	public boolean onCommand(User sender, String command, String[] args, MessageReceivedEvent event) {
+		Guild guild = event.getGuild();
 		List<Role> roleList = guild.getRolesByName("Muted", false);
 		if (roleList.size() < 1) {
 			System.out.println("no rule");
