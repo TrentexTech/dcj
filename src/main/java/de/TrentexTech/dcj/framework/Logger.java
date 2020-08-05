@@ -22,4 +22,9 @@ public class Logger {
 		log(Level.WARNING, subject, cls, "" + msg);
 	}
 
+	public static void logError(String subject, Class cls, String msg) {
+		// TODO sponge colorcode
+		log(Level.SEVERE, subject, cls, "" + msg);
+	}
+
 }

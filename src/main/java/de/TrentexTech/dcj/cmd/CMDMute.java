@@ -1,5 +1,6 @@
 package de.TrentexTech.dcj.cmd;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.TrentexTech.dcj.main.Storage;
@@ -10,12 +11,13 @@ import net.dv8tion.jda.api.entities.User;
 
 public class CMDMute implements CommandExecutor {
 
+	List<String> aliases = new ArrayList<String>();
+
 	public CMDMute() {
 		aliases.add("mute");
 	}
 
 	public boolean onCommand(User sender, String command, String[] args, Guild guild) {
-
 		List<Role> roleList = guild.getRolesByName("Muted", false);
 		if (roleList.size() < 1) {
 			System.out.println("no rule");

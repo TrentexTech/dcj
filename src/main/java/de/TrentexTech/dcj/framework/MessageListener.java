@@ -1,8 +1,11 @@
 package de.TrentexTech.dcj.framework;
 
+import java.util.logging.Level;
+
 import de.TrentexTech.dcj.main.Dcj;
 import de.TrentexTech.dcj.main.Storage;
 import de.TrentexTech.dcj.stuff.Command;
+import de.TrentexTech.dcj.stuff.CommandExecutor;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -38,7 +41,8 @@ public class MessageListener extends ListenerAdapter {
 			Storage.commandChannel = channel;
 		}
 
-		Logger.logInfo("MessageListener", this.getClass(), "[" + channelName + "|" + sender.getAsTag() + "]: " + msg);
+		Logger.log(Level.FINER, "MessageListener", this.getClass(),
+				"[" + channelName + "|" + sender.getAsTag() + "]: " + msg);
 		if (!sender.getAsTag().equals(Storage.NAME)) {
 			if (msg.startsWith(Storage.PREFIX) && channelName.equals(Storage.CMDCHANNEL)) {
 				handleCommand(message, guild);
@@ -48,6 +52,8 @@ public class MessageListener extends ListenerAdapter {
 
 	private void handleCommand(Message message, Guild guild) {
 		Command cmd = Command.parse(message);
-		dcj.getCommand(cmd.getLabel()).onCommand(cmd.getSender(), cmd.getLabel(), cmd.getArgs(), guild);
+		CommandExecutor ce = dcj.getCommand(cmd.getLabel());
+		Logger.logInfo("CommandExecution", ce.getClass(), cmd.getSender().getAsTag() + ": help");
+		ce.onCommand(cmd.getSender(), cmd.getLabel(), cmd.getArgs(), guild);
 	}
 }

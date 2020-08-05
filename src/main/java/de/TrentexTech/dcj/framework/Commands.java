@@ -16,15 +16,17 @@ public class Commands {
 	public Commands(Dcj dcj) {
 		this.dcj = dcj;
 
-		//
+		// Initialize and add command handlers
 
 		list.add(new CMDHelp());
 		list.add(new CMDMute());
 
-		//
+		// Add the aliases and command handler to command handler list
 
 		for (int i = 0; i < list.size(); i++) {
 			for (int j = 0; j < list.get(i).getAliases().size(); j++) {
+				System.out.println(
+						"add " + list.get(i).getAliases().get(j) + " for " + list.get(i).getClass().getSimpleName());
 				this.dcj.cmdList.put(list.get(i).getAliases().get(j), list.get(i));
 			}
 		}
